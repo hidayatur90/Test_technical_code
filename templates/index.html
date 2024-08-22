@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes Pranala</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>Technical Test Pranala</h1>
+    <form action="" id="mainForm">
+        <input type="number" name="numberInput" id="numberInput">
+        <br>
+        <button type="button" id="generate_segitiga">Generate Segitiga</button>
+        <button type="button" id="generate_ganjil">Generate Bilangan Ganjil</button>
+        <button type="button" id="generate_prima">Generate Bilangan Prima</button>
+    </form>
+
+    <h3>Result :</h3>
+    <pre id="result"></pre>
+
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function () {
+        function validateNumber(input) {
+            return /^\d+$/.test(input);
+        }
+
+        function ajaxRequest(endpoint) {
+            const numberInput = $('#numberInput').val();
+
+            if (!validateNumber(numberInput)) {
+                alert('Enter a valid number!')
+                return;
+            }
+
+            $.ajax({
+                url: endpoint,
+                type: 'POST',
+                data: { number: numberInput },
+                success: function (data) {
+                    $('#result').text(data.result);
+                },
+                error: function () {
+                    $('#result').text('Error!');
+                }
+            })
+        }
+
+        $('#generate_segitiga').click(function () {
+            ajaxRequest('http://127.0.0.1:5000/generate_segitiga')
+        })
+
+        $('#generate_ganjil').click(function () {
+            ajaxRequest('http://127.0.0.1:5000/generate_ganjil')
+        })
+
+        $('#generate_prima').click(function () {
+            ajaxRequest('http://127.0.0.1:5000/generate_prima')
+        })
+    })
+</script>
